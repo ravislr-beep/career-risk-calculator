@@ -264,7 +264,6 @@
             <p>Assess your career stability and get personalized recommendations</p>
         </div>
         
-        <!-- Login Section -->
         <div id="loginSection" class="card">
             <div class="login-section">
                 <h2>Sign in to Get Started</h2>
@@ -281,16 +280,13 @@
             </div>
         </div>
         
-        <!-- Main App Section -->
         <div id="appSection" class="hidden">
-            <!-- User Profile -->
             <div class="card">
                 <div id="userProfile" class="user-profile"></div>
                 <button id="logoutBtn" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; float: right;">Logout</button>
                 <div style="clear: both;"></div>
             </div>
             
-            <!-- Assessment Form -->
             <div class="card">
                 <form id="assessmentForm">
                     <h2 class="section-title">Personal Information</h2>
@@ -440,7 +436,6 @@
                 </form>
             </div>
             
-            <!-- Results Section -->
             <div id="resultsSection" class="card hidden">
                 <h2 class="section-title">Your Career Risk Assessment</h2>
                 <div class="results">
@@ -470,10 +465,10 @@
         // ⚠️ REPLACE WITH YOUR ACTUAL SUPABASE ANON KEY ⚠️
         // Get this from: Supabase Dashboard → Settings → API → "anon public"
         const SUPABASE_URL = 'https://wlojyyalstzebzkyjwom.supabase.co';
-        const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4';
         
         // Check if credentials are configured
-        if (SUPABASE_ANON_KEY === 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ') {
+        if (SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4') {
             document.body.innerHTML = `
                 <div style="max-width: 600px; margin: 50px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
                     <h2 style="color: #e74c3c; margin-bottom: 20px;">⚠️ Configuration Required</h2>
@@ -481,12 +476,12 @@
                     <ol style="margin-bottom: 20px; padding-left: 20px;">
                         <li>Go to <a href="https://supabase.com" target="_blank">supabase.com</a> → Your Project → Settings → API</li>
                         <li>Copy the "anon public" key (starts with eyJ...)</li>
-                        <li>Replace <code>PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ</code> in this HTML file</li>
+                        <li>Replace <code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4</code> in this HTML file</li>
                         <li>Upload the updated file to Netlify</li>
                     </ol>
                     <p style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px;">
                         Find this line in the HTML:<br>
-                        <strong>const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ';</strong>
+                        <strong>const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4';</strong>
                     </p>
                 </div>
             `;
@@ -495,195 +490,267 @@
         
         // Initialize Supabase client
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
-        // DOM elements
+
+        // --- DOM Elements ---
         const loginSection = document.getElementById('loginSection');
         const appSection = document.getElementById('appSection');
+        const userProfile = document.getElementById('userProfile');
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
-        const userProfile = document.getElementById('userProfile');
         const assessmentForm = document.getElementById('assessmentForm');
         const resultsSection = document.getElementById('resultsSection');
+        const riskCircle = document.getElementById('riskCircle');
+        const riskScoreText = document.getElementById('riskScoreText');
+        const riskLevelText = document.getElementById('riskLevelText');
+        const recommendationsList = document.getElementById('recommendationsList');
         const loading = document.getElementById('loading');
         const errorDiv = document.getElementById('error');
         
-        let currentUser = null;
-        
-        // Check initial auth state
-        checkAuthState();
-        
-        // Range input handlers
-        setupRangeInputs();
-        
-        // Event listeners
-        loginBtn.addEventListener('click', signInWithGoogle);
-        logoutBtn.addEventListener('click', signOut);
-        assessmentForm.addEventListener('submit', handleFormSubmit);
-        
-        // Auth state listener
-        supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN') {
-                currentUser = session.user;
-                showApp();
-                saveUserProfile(session.user);
-            } else if (event === 'SIGNED_OUT') {
-                currentUser = null;
-                showLogin();
-            }
+        // --- Event Listeners for Range Inputs ---
+        const rangeInputs = ['jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand'];
+        rangeInputs.forEach(id => {
+            const input = document.getElementById(id);
+            const valueSpan = document.getElementById(id + 'Value');
+            input.addEventListener('input', () => {
+                valueSpan.textContent = input.value;
+            });
         });
-        
-        async function checkAuthState() {
-            try {
-                const { data: { session }, error } = await supabase.auth.getSession();
-                if (error) throw error;
-                
-                if (session) {
-                    currentUser = session.user;
-                    showApp();
-                    saveUserProfile(session.user);
-                } else {
-                    showLogin();
-                    handleOAuthCallback();
-                }
-            } catch (error) {
-                console.error('Auth check error:', error);
-                showError('Authentication check failed');
-            }
-        }
-        
-        // Handle OAuth callback
-        async function handleOAuthCallback() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const hash = window.location.hash;
-            
-            if (urlParams.has('code') || hash.includes('access_token')) {
-                showError('Processing login...', 'info');
-                
-                try {
-                    // Wait a moment for Supabase to process the callback
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    const { data, error } = await supabase.auth.getSession();
-                    if (error) throw error;
-                    
-                    if (data.session) {
-                        hideError();
-                        // Clean up URL
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    }
-                } catch (error) {
-                    showError('Login processing failed: ' + error.message);
-                }
-            }
-        }
-        
+
+        // --- Supabase Authentication Functions ---
         async function signInWithGoogle() {
-            try {
-                const { error } = await supabase.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: {
-                        redirectTo: `${window.location.origin}`
-                    }
-                });
-                if (error) throw error;
-            } catch (error) {
-                console.error('Login error:', error);
-                showError('Login failed: ' + error.message);
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google'
+            });
+            if (error) {
+                showError('Error signing in with Google: ' + error.message);
             }
         }
         
         async function signOut() {
-            try {
-                const { error } = await supabase.auth.signOut();
-                if (error) throw error;
-            } catch (error) {
-                console.error('Logout error:', error);
-                showError('Logout failed');
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                showError('Error signing out: ' + error.message);
             }
         }
         
-        async function saveUserProfile(user) {
-            try {
-                const { data, error } = await supabase
-                    .from('users')
-                    .upsert({
-                        id: user.id,
-                        google_id: user.user_metadata?.provider_id || user.id,
-                        email: user.email,
-                        name: user.user_metadata?.full_name || user.email,
-                        profile_picture: user.user_metadata?.avatar_url
-                    }, {
-                        onConflict: 'google_id'
-                    });
-                
-                if (error) throw error;
-                updateUserProfileDisplay(user);
-            } catch (error) {
-                console.error('Profile save error:', error);
-                updateUserProfileDisplay(user); // Show profile anyway
-            }
-        }
-        
-        function updateUserProfileDisplay(user) {
-            const name = user.user_metadata?.full_name || user.email;
-            const avatar = user.user_metadata?.avatar_url || '';
-            
-            userProfile.innerHTML = `
-                ${avatar ? `<img src="${avatar}" alt="Profile">` : '<div style="width: 50px; height: 50px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">' + name.charAt(0).toUpperCase() + '</div>'}
-                <div>
-                    <div style="font-weight: 600;">${name}</div>
-                    <div style="color: #666; font-size: 14px;">${user.email}</div>
-                </div>
-            `;
-        }
-        
-        function setupRangeInputs() {
-            const ranges = ['jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand'];
-            
-            ranges.forEach(id => {
-                const input = document.getElementById(id);
-                const value = document.getElementById(id + 'Value');
-                
-                if (input && value) {
-                    input.addEventListener('input', () => {
-                        value.textContent = input.value;
-                    });
-                }
-            });
-        }
-        
-        async function handleFormSubmit(e) {
-            e.preventDefault();
-            
-            if (!currentUser) {
-                showError('Please log in first');
+        async function getSession() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error) {
+                showError('Error getting session: ' + error.message);
                 return;
             }
-            
+            if (session) {
+                onSessionChanged(session);
+            } else {
+                onSessionChanged(null);
+            }
+        }
+        
+        supabase.auth.onAuthStateChange((event, session) => {
+            onSessionChanged(session);
+        });
+
+        function onSessionChanged(session) {
+            if (session) {
+                // User is logged in
+                loginSection.classList.add('hidden');
+                appSection.classList.remove('hidden');
+                const user = session.user;
+                userProfile.innerHTML = `
+                    <img src="${user.user_metadata.avatar_url}" alt="Profile Picture">
+                    <div>
+                        <h4>Welcome, ${user.user_metadata.full_name}</h4>
+                        <p style="font-size: 0.9em; color: #666;">${user.email}</p>
+                    </div>
+                `;
+            } else {
+                // User is logged out
+                loginSection.classList.remove('hidden');
+                appSection.classList.add('hidden');
+                resultsSection.classList.add('hidden');
+            }
+        }
+
+        // --- Form Submission and Calculation Logic ---
+        assessmentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             showLoading(true);
-            hideError();
+            const formData = new FormData(assessmentForm);
+            const data = Object.fromEntries(formData.entries());
             
+            // Convert numerical inputs to numbers
+            for (const key of ['age', 'yearsExperience', 'currentSalary', 'dependents', 'monthlyExpenses', 'emergencyFund', 'jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand']) {
+                data[key] = parseFloat(data[key]);
+            }
+
             try {
-                const formData = new FormData(assessmentForm);
-                const data = Object.fromEntries(formData.entries());
+                // Calculate risk score
+                const riskScore = calculateRiskScore(data);
+                const { riskLevel, recommendations } = getRecommendations(riskScore, data);
+
+                // Display results
+                displayResults(riskScore, riskLevel, recommendations);
                 
-                // Convert numeric fields
-                const numericFields = ['age', 'yearsExperience', 'currentSalary', 'dependents', 'monthlyExpenses', 'emergencyFund', 'jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand'];
-                numericFields.forEach(field => {
-                    if (data[field]) data[field] = parseFloat(data[field]);
+                // Save data to Supabase
+                const { data: userData, error } = await supabase
+                    .from('assessments')
+                    .insert([{ 
+                        user_id: (await supabase.auth.getSession()).data.session.user.id,
+                        age: data.age,
+                        years_experience: data.yearsExperience,
+                        current_salary: data.currentSalary,
+                        dependents: data.dependents,
+                        job_title: data.jobTitle,
+                        industry: data.industry,
+                        company_size: data.companySize,
+                        employment_type: data.employmentType,
+                        education_level: data.educationLevel,
+                        technical_skills: data.technicalSkills,
+                        monthly_expenses: data.monthlyExpenses,
+                        emergency_fund: data.emergencyFund,
+                        job_satisfaction: data.jobSatisfaction,
+                        company_stability: data.companyStability,
+                        industry_growth: data.industryGrowth,
+                        skill_demand: data.skillDemand,
+                        risk_score: riskScore,
+                        risk_level: riskLevel,
+                        recommendations: recommendations.join('; ')
+                    }]);
+
+                if (error) {
+                    console.error('Error saving data:', error);
+                }
+            } catch (err) {
+                showError('Calculation failed. Please check your inputs.');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        function calculateRiskScore(data) {
+            // Weights (can be adjusted)
+            const weights = {
+                age: 0.1,
+                yearsExperience: 0.1,
+                currentSalary: 0.15,
+                dependents: 0.1,
+                educationLevel: 0.1,
+                jobSatisfaction: 0.15,
+                companyStability: 0.15,
+                industryGrowth: 0.15,
+                skillDemand: 0.2
+            };
+            
+            // Inverse mapping for certain values (e.g., lower age/salary/satisfaction means higher risk)
+            const invertedAge = 100 - data.age;
+            const invertedSalary = 10 - (data.currentSalary / 10000); // Scale down large numbers
+            const invertedDependents = data.dependents * 1.5;
+            const invertedEducation = { 'highschool': 10, 'associate': 8, 'bachelor': 6, 'master': 4, 'phd': 2, 'bootcamp': 7 };
+            
+            let score = 0;
+            score += (data.jobSatisfaction) * 1.5; // High satisfaction reduces risk
+            score += (data.companyStability) * 1.5; // High stability reduces risk
+            score += (data.industryGrowth) * 1.5; // High growth reduces risk
+            score += (data.skillDemand) * 1.5; // High demand reduces risk
+            score -= (data.age / 10); // Older age slightly increases risk
+            score -= (data.dependents * 2); // More dependents increases risk
+            score += (data.yearsExperience); // More experience reduces risk
+            score -= (data.monthlyExpenses / data.currentSalary * 100); // High expenses relative to income increases risk
+            score += (data.emergencyFund * 5); // Emergency fund reduces risk
+            
+            // Normalize score to a 1-100 range and cap it
+            score = Math.max(1, Math.min(100, (50 - (data.jobSatisfaction - 5) * 2 - (data.companyStability - 5) * 2 - (data.industryGrowth - 5) * 2 - (data.skillDemand - 5) * 2)));
+
+            return Math.round(score);
+        }
+
+        function getRecommendations(score, data) {
+            const recommendations = [];
+            let riskLevel = 'Low';
+            let riskColorClass = 'risk-low';
+
+            if (score > 60) {
+                riskLevel = 'High';
+                riskColorClass = 'risk-high';
+                recommendations.push("Your career risk is high. Consider a proactive plan to address these vulnerabilities.");
+            } else if (score > 30) {
+                riskLevel = 'Medium';
+                riskColorClass = 'risk-medium';
+                recommendations.push("Your career risk is moderate. Focus on strengthening key areas to improve stability.");
+            } else {
+                riskLevel = 'Low';
+                riskColorClass = 'risk-low';
+                recommendations.push("Your career risk is low. Maintain your current course and stay adaptable.");
+            }
+            
+            if (data.emergencyFund < 3) {
+                recommendations.push(`Financial Security: Build an emergency fund of at least 3-6 months' expenses. You currently have only ${data.emergencyFund} months.`);
+            }
+            
+            if (data.skillDemand < 5) {
+                recommendations.push("Skill Development: Invest in new skills, especially those with high market demand, to future-proof your career.");
+            }
+            
+            if (data.companyStability < 5) {
+                recommendations.push("Company Stability: Explore opportunities at more stable companies or industries to mitigate layoff risk.");
+            }
+
+            if (data.jobSatisfaction < 5) {
+                recommendations.push("Job Satisfaction: Reflect on what's causing dissatisfaction. It may be time to seek new challenges or a different role.");
+            }
+
+            if (data.industryGrowth < 5) {
+                recommendations.push(`Industry Focus: The ${data.industry} industry may be declining. Consider transitioning to a faster-growing sector over time.`);
+            }
+
+            return { riskLevel, recommendations };
+        }
+
+        function displayResults(score, level, recommendations) {
+            resultsSection.classList.remove('hidden');
+            riskCircle.className = 'risk-circle ' + getRiskColorClass(level);
+            riskScoreText.textContent = score;
+            riskLevelText.textContent = `Risk Level: ${level}`;
+
+            recommendationsList.innerHTML = '';
+            if (recommendations.length > 0) {
+                recommendations.forEach(rec => {
+                    const li = document.createElement('li');
+                    li.textContent = rec;
+                    recommendationsList.appendChild(li);
                 });
-                
-                // Process skills arrays
-                data.technicalSkills = data.technicalSkills ? data.technicalSkills.split(',').map(s => s.trim()).filter(s => s) : [];
-                
-                // Calculate risk assessment
-                const assessment = calculateRiskAssessment(data);
-                
-                // Save to database
-                const { error } = await supabase
-                    .from('risk_assessments')
-                    .insert({
-                        user_id: currentUser.id,
-                        ...data,
-                        overall_risk_score: assessment.score,
-                        risk_level: assessment.
+            } else {
+                recommendationsList.innerHTML = '<li>No specific recommendations at this time. Keep up the good work!</li>';
+            }
+        }
+
+        function getRiskColorClass(level) {
+            switch(level) {
+                case 'Low': return 'risk-low';
+                case 'Medium': return 'risk-medium';
+                case 'High': return 'risk-high';
+                default: return '';
+            }
+        }
+        
+        function showLoading(show) {
+            loading.classList.toggle('hidden', !show);
+            assessmentForm.style.opacity = show ? '0.5' : '1';
+            const buttons = assessmentForm.querySelectorAll('button, input, select');
+            buttons.forEach(btn => btn.disabled = show);
+        }
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+        
+        // --- Button Click Handlers ---
+        loginBtn.addEventListener('click', signInWithGoogle);
+        logoutBtn.addEventListener('click', signOut);
+
+        // Initial session check
+        getSession();
+    </script>
+</body>
+</html>
