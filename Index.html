@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Risk Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.min.js">
+	const SUPABASE_URL = 'https://wlojyyalstzebzkyjwom.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4';
+	</script>
     <style>
         * {
             margin: 0;
@@ -15,147 +19,166 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            color: #333;
         }
         
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 20px;
         }
         
         .header {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            color: white;
-            padding: 40px 30px;
             text-align: center;
+            color: white;
+            margin-bottom: 30px;
         }
         
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
         
-        .form-section {
-            padding: 40px 30px;
-        }
-        
-        .question-group {
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-        
-        .question-group:nth-child(1) { animation-delay: 0.1s; }
-        .question-group:nth-child(2) { animation-delay: 0.2s; }
-        .question-group:nth-child(3) { animation-delay: 0.3s; }
-        .question-group:nth-child(4) { animation-delay: 0.4s; }
-        .question-group:nth-child(5) { animation-delay: 0.5s; }
-        .question-group:nth-child(6) { animation-delay: 0.6s; }
-        
-        .question-label {
-            display: block;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .slider-container {
-            position: relative;
-            margin: 20px 0;
-        }
-        
-        .slider {
-            width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: #e1e8ed;
-            outline: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-        }
-        
-        .slider::-webkit-slider-thumb {
-            appearance: -webkit-none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease;
-        }
-        
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
-        
-        .slider::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: #7f8c8d;
-        }
-        
-        .current-value {
-            font-weight: 600;
-            color: #667eea;
-            font-size: 1.1rem;
+        .login-section {
             text-align: center;
-            margin-top: 10px;
         }
         
-        .calculate-btn {
+        .google-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .google-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .user-profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .range-input {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .range-input input[type="range"] {
+            flex: 1;
+            margin: 0;
+        }
+        
+        .range-value {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 18px;
-            font-size: 1.2rem;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
             font-weight: 600;
-            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            width: 100%;
+            margin-top: 10px;
         }
         
-        .calculate-btn:hover {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
         
-        .result-section {
-            padding: 30px;
-            background: #f8f9fb;
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .results {
             margin-top: 30px;
-            border-radius: 15px;
-            display: none;
-        }
-        
-        .result-section.show {
-            display: block;
-            animation: slideIn 0.5s ease-out;
         }
         
         .risk-score {
@@ -163,80 +186,78 @@
             margin-bottom: 30px;
         }
         
-        .risk-number {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .risk-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
-        .risk-level {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #2c3e50;
+        .risk-low {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+        
+        .risk-medium {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+        
+        .risk-high {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
         }
         
         .recommendations {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .recommendations h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        .recommendations ul {
             list-style: none;
-            padding-left: 0;
+            padding: 0;
         }
         
         .recommendations li {
-            padding: 8px 0;
-            color: #555;
-            position: relative;
-            padding-left: 25px;
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
         }
         
-        .recommendations li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #27ae60;
-            font-weight: bold;
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
         }
         
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .error {
+            color: #e74c3c;
+            background: #fdf2f2;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e74c3c;
         }
         
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hidden {
+            display: none;
         }
         
-        .low-risk { color: #27ae60; }
-        .medium-risk { color: #f39c12; }
-        .high-risk { color: #e74c3c; }
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 20px;
+                margin: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -246,204 +267,603 @@
             <p>Assess your career stability and get personalized recommendations</p>
         </div>
         
-        <div class="form-section">
-            <form id="riskForm">
-                <div class="question-group">
-                    <label class="question-label">How stable is your industry? (1 = Very unstable, 10 = Very stable)</label>
-                    <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="industry">
-                        <div class="slider-labels">
-                            <span>Very Unstable</span>
-                            <span>Very Stable</span>
-                        </div>
-                        <div class="current-value" id="industryValue">5</div>
-                    </div>
-                </div>
-                
-                <div class="question-group">
-                    <label class="question-label">How in-demand are your skills? (1 = Low demand, 10 = High demand)</label>
-                    <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="skills">
-                        <div class="slider-labels">
-                            <span>Low Demand</span>
-                            <span>High Demand</span>
-                        </div>
-                        <div class="current-value" id="skillsValue">5</div>
-                    </div>
-                </div>
-                
-                <div class="question-group">
-                    <label class="question-label">How diverse is your skill set? (1 = Very specialized, 10 = Very diverse)</label>
-                    <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="diversity">
-                        <div class="slider-labels">
-                            <span>Very Specialized</span>
-                            <span>Very Diverse</span>
-                        </div>
-                        <div class="current-value" id="diversityValue">5</div>
-                    </div>
-                </div>
-                
-                <div class="question-group">
-                    <label class="question-label">How strong is your professional network? (1 = Very weak, 10 = Very strong)</label>
-                    <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="network">
-                        <div class="slider-labels">
-                            <span>Very Weak</span>
-                            <span>Very Strong</span>
-                        </div>
-                        <div class="current-value" id="networkValue">5</div>
-                    </div>
-                </div>
-                
-                <div class="question-group">
-                    <label class="question-label">How much emergency savings do you have? (1 = No savings, 10 = 12+ months expenses)</label>
-                    <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="savings">
-                        <div class="slider-labels">
-                            <span>No Savings</span>
-                            <span>12+ Months</span>
-                        </div>
-                        <div class="current-value" id="savingsValue">5</div>
-                    </div>
-                </div>
-                
-                <div class="question-group">
-                    <label class="question-label">How adaptable are you to change? (1 = Not adaptable, 10 = Very adaptable)</label>
-                    <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="adaptability">
-                        <div class="slider-labels">
-                            <span>Not Adaptable</span>
-                            <span>Very Adaptable</span>
-                        </div>
-                        <div class="current-value" id="adaptabilityValue">5</div>
-                    </div>
-                </div>
-                
-                <button type="submit" class="calculate-btn">Calculate My Career Risk</button>
-            </form>
+        <!-- Login Section -->
+        <div id="loginSection" class="card">
+            <div class="login-section">
+                <h2>Sign in to Get Started</h2>
+                <p style="margin: 20px 0; color: #666;">We'll use your Google account to save your assessments securely.</p>
+                <button id="loginBtn" class="google-btn">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.64 9.20454C17.64 8.56636 17.5827 7.95273 17.4764 7.36364H9V10.845H13.8436C13.635 11.97 13.0009 12.9231 12.0477 13.5614V15.8196H14.9564C16.6582 14.2527 17.64 11.9455 17.64 9.20454Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 18C11.43 18 13.4673 17.1941 14.9564 15.8195L12.0477 13.5613C11.2418 14.1013 10.2109 14.4204 9 14.4204C6.65591 14.4204 4.67182 12.8372 3.96409 10.71H0.957275V13.0418C2.43818 15.9831 5.48182 18 9 18Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.96409 10.7098C3.78409 10.1698 3.68182 9.59307 3.68182 8.99984C3.68182 8.40661 3.78409 7.82984 3.96409 7.28984V4.95801H0.957273C0.347727 6.17301 0 7.54757 0 8.99984C0 10.4521 0.347727 11.8266 0.957273 13.0416L3.96409 10.7098Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 3.57955C10.3214 3.57955 11.5077 4.03364 12.4405 4.92545L15.0218 2.34409C13.4632 0.891818 11.4259 0 9 0C5.48182 0 2.43818 2.01682 0.957275 4.95818L3.96409 7.29C4.67182 5.16273 6.65591 3.57955 9 3.57955Z" fill="white"/>
+                    </svg>
+                    Continue with Google
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main App Section -->
+        <div id="appSection" class="hidden">
+            <!-- User Profile -->
+            <div class="card">
+                <div id="userProfile" class="user-profile"></div>
+                <button id="logoutBtn" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; float: right;">Logout</button>
+                <div style="clear: both;"></div>
+            </div>
             
-            <div id="results" class="result-section">
-                <div class="risk-score">
-                    <div id="riskNumber" class="risk-number">0</div>
-                    <div id="riskLevel" class="risk-level">Low Risk</div>
-                </div>
-                
-                <div class="recommendations">
-                    <h3>Recommendations</h3>
-                    <ul id="recommendationsList">
-                    </ul>
+            <!-- Assessment Form -->
+            <div class="card">
+                <form id="assessmentForm">
+                    <h2 class="section-title">Personal Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" min="18" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="yearsExperience">Years of Experience</label>
+                            <input type="number" id="yearsExperience" name="yearsExperience" min="0" max="50" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currentSalary">Current Annual Salary (USD)</label>
+                            <input type="number" id="currentSalary" name="currentSalary" min="0" step="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dependents">Number of Dependents</label>
+                            <input type="number" id="dependents" name="dependents" min="0" max="20">
+                        </div>
+                    </div>
+                    
+                    <h2 class="section-title">Career Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" id="jobTitle" name="jobTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="industry">Industry</label>
+                            <select id="industry" name="industry" required>
+                                <option value="">Select Industry</option>
+                                <option value="technology">Technology</option>
+                                <option value="finance">Finance</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="education">Education</option>
+                                <option value="retail">Retail</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="media">Media & Entertainment</option>
+                                <option value="government">Government</option>
+                                <option value="nonprofit">Non-Profit</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="companySize">Company Size</label>
+                            <select id="companySize" name="companySize" required>
+                                <option value="">Select Size</option>
+                                <option value="startup">Startup (1-50)</option>
+                                <option value="small">Small (51-200)</option>
+                                <option value="medium">Medium (201-1000)</option>
+                                <option value="large">Large (1000+)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="employmentType">Employment Type</label>
+                            <select id="employmentType" name="employmentType" required>
+                                <option value="">Select Type</option>
+                                <option value="fulltime">Full-time</option>
+                                <option value="parttime">Part-time</option>
+                                <option value="contract">Contract</option>
+                                <option value="freelance">Freelance</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <h2 class="section-title">Skills & Education</h2>
+                    <div class="form-group">
+                        <label for="educationLevel">Education Level</label>
+                        <select id="educationLevel" name="educationLevel" required>
+                            <option value="">Select Level</option>
+                            <option value="highschool">High School</option>
+                            <option value="associate">Associate Degree</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="master">Master's Degree</option>
+                            <option value="phd">PhD</option>
+                            <option value="bootcamp">Bootcamp/Certificate</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="technicalSkills">Technical Skills (comma-separated)</label>
+                        <textarea id="technicalSkills" name="technicalSkills" rows="3" placeholder="e.g., JavaScript, Python, Data Analysis, Project Management"></textarea>
+                    </div>
+                    
+                    <h2 class="section-title">Financial Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="monthlyExpenses">Monthly Expenses (USD)</label>
+                            <input type="number" id="monthlyExpenses" name="monthlyExpenses" min="0" step="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyFund">Emergency Fund (months of expenses)</label>
+                            <input type="number" id="emergencyFund" name="emergencyFund" min="0" max="24" step="0.5">
+                        </div>
+                    </div>
+                    
+                    <h2 class="section-title">Risk Assessment (Rate 1-10)</h2>
+                    <div class="form-group">
+                        <label for="jobSatisfaction">Job Satisfaction</label>
+                        <div class="range-input">
+                            <span>1 (Very Unsatisfied)</span>
+                            <input type="range" id="jobSatisfaction" name="jobSatisfaction" min="1" max="10" value="5">
+                            <span>10 (Very Satisfied)</span>
+                            <div class="range-value" id="jobSatisfactionValue">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="companyStability">Company Stability</label>
+                        <div class="range-input">
+                            <span>1 (Very Unstable)</span>
+                            <input type="range" id="companyStability" name="companyStability" min="1" max="10" value="5">
+                            <span>10 (Very Stable)</span>
+                            <div class="range-value" id="companyStabilityValue">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="industryGrowth">Industry Growth Prospects</label>
+                        <div class="range-input">
+                            <span>1 (Declining)</span>
+                            <input type="range" id="industryGrowth" name="industryGrowth" min="1" max="10" value="5">
+                            <span>10 (Rapidly Growing)</span>
+                            <div class="range-value" id="industryGrowthValue">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skillDemand">Skill Set Market Demand</label>
+                        <div class="range-input">
+                            <span>1 (Low Demand)</span>
+                            <input type="range" id="skillDemand" name="skillDemand" min="1" max="10" value="5">
+                            <span>10 (High Demand)</span>
+                            <div class="range-value" id="skillDemandValue">5</div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn" id="calculateBtn">Calculate Career Risk</button>
+                </form>
+            </div>
+            
+            <!-- Results Section -->
+            <div id="resultsSection" class="card hidden">
+                <h2 class="section-title">Your Career Risk Assessment</h2>
+                <div class="results">
+                    <div class="risk-score">
+                        <div id="riskCircle" class="risk-circle">
+                            <span id="riskScoreText">--</span>
+                        </div>
+                        <h3 id="riskLevelText">Risk Level</h3>
+                    </div>
+                    
+                    <div>
+                        <h3>Recommendations:</h3>
+                        <ul id="recommendationsList" class="recommendations"></ul>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <div id="loading" class="loading hidden">
+            <p>Processing your assessment...</p>
+        </div>
+        
+        <div id="error" class="error hidden"></div>
     </div>
 
     <script>
-        // Update slider values in real-time
-        const sliders = ['industry', 'skills', 'diversity', 'network', 'savings', 'adaptability'];
+        // Configuration - Replace these with your actual values
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your Supabase project URL
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon key
         
-        sliders.forEach(slider => {
-            const input = document.getElementById(slider);
-            const value = document.getElementById(slider + 'Value');
-            
-            input.addEventListener('input', function() {
-                value.textContent = this.value;
-            });
-        });
-
-        // Handle form submission
-        document.getElementById('riskForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            calculateRisk();
-        });
-
-        function calculateRisk() {
-            // Get all values
-            const industry = parseInt(document.getElementById('industry').value);
-            const skills = parseInt(document.getElementById('skills').value);
-            const diversity = parseInt(document.getElementById('diversity').value);
-            const network = parseInt(document.getElementById('network').value);
-            const savings = parseInt(document.getElementById('savings').value);
-            const adaptability = parseInt(document.getElementById('adaptability').value);
-
-            // Calculate risk score (invert so higher scores = lower risk)
-            const totalScore = industry + skills + diversity + network + savings + adaptability;
-            const riskScore = Math.round(((60 - totalScore) / 54) * 100);
-            const finalRisk = Math.max(0, Math.min(100, riskScore));
-
-            // Determine risk level
-            let riskLevel, riskClass;
-            if (finalRisk <= 30) {
-                riskLevel = "Low Risk";
-                riskClass = "low-risk";
-            } else if (finalRisk <= 70) {
-                riskLevel = "Medium Risk";
-                riskClass = "medium-risk";
-            } else {
-                riskLevel = "High Risk";
-                riskClass = "high-risk";
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // DOM elements
+        const loginSection = document.getElementById('loginSection');
+        const appSection = document.getElementById('appSection');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userProfile = document.getElementById('userProfile');
+        const assessmentForm = document.getElementById('assessmentForm');
+        const resultsSection = document.getElementById('resultsSection');
+        const loading = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        
+        let currentUser = null;
+        
+        // Check initial auth state
+        checkAuthState();
+        
+        // Range input handlers
+        setupRangeInputs();
+        
+        // Event listeners
+        loginBtn.addEventListener('click', signInWithGoogle);
+        logoutBtn.addEventListener('click', signOut);
+        assessmentForm.addEventListener('submit', handleFormSubmit);
+        
+        // Auth state listener
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN') {
+                currentUser = session.user;
+                showApp();
+                saveUserProfile(session.user);
+            } else if (event === 'SIGNED_OUT') {
+                currentUser = null;
+                showLogin();
             }
-
-            // Generate recommendations
-            const recommendations = generateRecommendations(industry, skills, diversity, network, savings, adaptability, finalRisk);
-
-            // Display results
-            document.getElementById('riskNumber').textContent = finalRisk + '%';
-            document.getElementById('riskLevel').textContent = riskLevel;
-            document.getElementById('riskLevel').className = 'risk-level ' + riskClass;
-
+        });
+        
+        async function checkAuthState() {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) throw error;
+                
+                if (session) {
+                    currentUser = session.user;
+                    showApp();
+                    saveUserProfile(session.user);
+                } else {
+                    showLogin();
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+                showError('Authentication check failed');
+            }
+        }
+        
+        async function signInWithGoogle() {
+            try {
+                const { error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.origin
+                    }
+                });
+                if (error) throw error;
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Login failed: ' + error.message);
+            }
+        }
+        
+        async function signOut() {
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (error) throw error;
+            } catch (error) {
+                console.error('Logout error:', error);
+                showError('Logout failed');
+            }
+        }
+        
+        async function saveUserProfile(user) {
+            try {
+                const { data, error } = await supabase
+                    .from('users')
+                    .upsert({
+                        id: user.id,
+                        google_id: user.user_metadata?.provider_id || user.id,
+                        email: user.email,
+                        name: user.user_metadata?.full_name || user.email,
+                        profile_picture: user.user_metadata?.avatar_url
+                    }, {
+                        onConflict: 'google_id'
+                    });
+                
+                if (error) throw error;
+                updateUserProfileDisplay(user);
+            } catch (error) {
+                console.error('Profile save error:', error);
+                updateUserProfileDisplay(user); // Show profile anyway
+            }
+        }
+        
+        function updateUserProfileDisplay(user) {
+            const name = user.user_metadata?.full_name || user.email;
+            const avatar = user.user_metadata?.avatar_url || '';
+            
+            userProfile.innerHTML = `
+                ${avatar ? `<img src="${avatar}" alt="Profile">` : '<div style="width: 50px; height: 50px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">' + name.charAt(0).toUpperCase() + '</div>'}
+                <div>
+                    <div style="font-weight: 600;">${name}</div>
+                    <div style="color: #666; font-size: 14px;">${user.email}</div>
+                </div>
+            `;
+        }
+        
+        function setupRangeInputs() {
+            const ranges = ['jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand'];
+            
+            ranges.forEach(id => {
+                const input = document.getElementById(id);
+                const value = document.getElementById(id + 'Value');
+                
+                input.addEventListener('input', () => {
+                    value.textContent = input.value;
+                });
+            });
+        }
+        
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showError('Please log in first');
+                return;
+            }
+            
+            showLoading(true);
+            hideError();
+            
+            try {
+                const formData = new FormData(assessmentForm);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Convert numeric fields
+                const numericFields = ['age', 'yearsExperience', 'currentSalary', 'dependents', 'monthlyExpenses', 'emergencyFund', 'jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand'];
+                numericFields.forEach(field => {
+                    if (data[field]) data[field] = parseFloat(data[field]);
+                });
+                
+                // Process skills arrays
+                data.technicalSkills = data.technicalSkills ? data.technicalSkills.split(',').map(s => s.trim()).filter(s => s) : [];
+                
+                // Calculate risk assessment
+                const assessment = calculateRiskAssessment(data);
+                
+                // Save to database
+                const { error } = await supabase
+                    .from('risk_assessments')
+                    .insert({
+                        user_id: currentUser.id,
+                        ...data,
+                        overall_risk_score: assessment.score,
+                        risk_level: assessment.level,
+                        recommendations: assessment.recommendations
+                    });
+                
+                if (error) throw error;
+                
+                // Display results
+                displayResults(assessment);
+                
+            } catch (error) {
+                console.error('Assessment error:', error);
+                showError('Failed to process assessment: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        function calculateRiskAssessment(data) {
+            let riskScore = 0;
+            const recommendations = [];
+            
+            // Age factor (peak earning years)
+            if (data.age < 25) {
+                riskScore += 10;
+                recommendations.push('Build foundational skills and gain more experience');
+            } else if (data.age > 55) {
+                riskScore += 15;
+                recommendations.push('Consider retirement planning and skill updates for changing market');
+            } else {
+                riskScore += 5;
+            }
+            
+            // Experience factor
+            if (data.yearsExperience < 2) {
+                riskScore += 20;
+                recommendations.push('Focus on gaining more experience and building a professional network');
+            } else if (data.yearsExperience < 5) {
+                riskScore += 10;
+            } else {
+                riskScore += 0;
+            }
+            
+            // Financial stability
+            const monthsOfExpenses = data.emergencyFund || 0;
+            if (monthsOfExpenses < 3) {
+                riskScore += 25;
+                recommendations.push('Build emergency fund to cover 3-6 months of expenses');
+            } else if (monthsOfExpenses < 6) {
+                riskScore += 10;
+                recommendations.push('Continue building emergency fund to 6+ months');
+            }
+            
+            // Employment type risk
+            const employmentRisk = {
+                'fulltime': 0,
+                'parttime': 15,
+                'contract': 20,
+                'freelance': 25
+            };
+            riskScore += employmentRisk[data.employmentType] || 0;
+            
+            if (data.employmentType !== 'fulltime') {
+                recommendations.push('Consider diversifying income sources or seeking more stable employment');
+            }
+            
+            // Company size and stability
+            const companySizeRisk = {
+                'startup': 20,
+                'small': 10,
+                'medium': 5,
+                'large': 0
+            };
+            riskScore += companySizeRisk[data.companySize] || 0;
+            
+            // Industry risk
+            const industryRisk = {
+                'technology': 5,
+                'finance': 10,
+                'healthcare': 5,
+                'education': 10,
+                'retail': 20,
+                'manufacturing': 15,
+                'consulting': 10,
+                'media': 20,
+                'government': 5,
+                'nonprofit': 15,
+                'other': 10
+            };
+            riskScore += industryRisk[data.industry] || 10;
+            
+            // Satisfaction and stability factors (inverted - higher satisfaction = lower risk)
+            riskScore += (10 - data.jobSatisfaction) * 2;
+            riskScore += (10 - data.companyStability) * 3;
+            riskScore += (10 - data.industryGrowth) * 2;
+            riskScore += (10 - data.skillDemand) * 3;
+            
+            // Job satisfaction recommendations
+            if (data.jobSatisfaction <= 4) {
+                recommendations.push('Consider discussing career development with your manager or exploring new opportunities');
+            }
+            
+            // Company stability recommendations
+            if (data.companyStability <= 4) {
+                recommendations.push('Monitor company performance and have a backup plan ready');
+            }
+            
+            // Industry growth recommendations
+            if (data.industryGrowth <= 4) {
+                recommendations.push('Consider transitioning to a growing industry or developing transferable skills');
+            }
+            
+            // Skill demand recommendations
+            if (data.skillDemand <= 4) {
+                recommendations.push('Invest in learning new, in-demand skills relevant to your field');
+            }
+            
+            // Skills assessment
+            if (data.technicalSkills.length < 3) {
+                riskScore += 10;
+                recommendations.push('Develop more technical skills to increase marketability');
+            }
+            
+            // Education factor
+            const educationRisk = {
+                'highschool': 15,
+                'associate': 10,
+                'bachelor': 5,
+                'master': 0,
+                'phd': 0,
+                'bootcamp': 8
+            };
+            riskScore += educationRisk[data.educationLevel] || 10;
+            
+            // Dependents factor
+            if (data.dependents > 0) {
+                riskScore += data.dependents * 5;
+                recommendations.push('Consider life and disability insurance to protect your dependents');
+            }
+            
+            // Cap the risk score
+            riskScore = Math.min(riskScore, 100);
+            
+            // Determine risk level
+            let riskLevel;
+            if (riskScore <= 30) {
+                riskLevel = 'Low';
+                recommendations.push('Your career appears stable. Continue current trajectory and stay updated with industry trends');
+            } else if (riskScore <= 60) {
+                riskLevel = 'Medium';
+                recommendations.push('Some areas need attention. Focus on the recommendations to improve stability');
+            } else {
+                riskLevel = 'High';
+                recommendations.push('Several risk factors identified. Consider immediate action on multiple fronts');
+            }
+            
+            // Always add general recommendations
+            recommendations.push('Network regularly within your industry');
+            recommendations.push('Keep your resume and LinkedIn profile updated');
+            recommendations.push('Consider additional certifications or training');
+            
+            return {
+                score: Math.round(riskScore),
+                level: riskLevel,
+                recommendations: recommendations.slice(0, 8) // Limit recommendations
+            };
+        }
+        
+        function displayResults(assessment) {
+            const riskCircle = document.getElementById('riskCircle');
+            const riskScoreText = document.getElementById('riskScoreText');
+            const riskLevelText = document.getElementById('riskLevelText');
             const recommendationsList = document.getElementById('recommendationsList');
+            
+            // Update risk score display
+            riskScoreText.textContent = assessment.score;
+            riskLevelText.textContent = `${assessment.level} Risk`;
+            
+            // Update risk circle color
+            riskCircle.className = 'risk-circle';
+            if (assessment.level === 'Low') {
+                riskCircle.classList.add('risk-low');
+            } else if (assessment.level === 'Medium') {
+                riskCircle.classList.add('risk-medium');
+            } else {
+                riskCircle.classList.add('risk-high');
+            }
+            
+            // Update recommendations
             recommendationsList.innerHTML = '';
-            recommendations.forEach(rec => {
+            assessment.recommendations.forEach(rec => {
                 const li = document.createElement('li');
                 li.textContent = rec;
                 recommendationsList.appendChild(li);
             });
-
-            document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            
+            // Show results section
+            resultsSection.classList.remove('hidden');
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
         }
-
-        function generateRecommendations(industry, skills, diversity, network, savings, adaptability, riskScore) {
-            const recommendations = [];
-
-            if (industry <= 4) {
-                recommendations.push("Consider diversifying into more stable industries or developing transferable skills");
-            }
-
-            if (skills <= 4) {
-                recommendations.push("Invest time in learning high-demand skills in your field or related areas");
-            }
-
-            if (diversity <= 4) {
-                recommendations.push("Develop a broader skill set to increase your career flexibility and opportunities");
-            }
-
-            if (network <= 4) {
-                recommendations.push("Focus on building professional relationships through networking events and online communities");
-            }
-
-            if (savings <= 4) {
-                recommendations.push("Prioritize building an emergency fund covering 6-12 months of expenses");
-            }
-
-            if (adaptability <= 4) {
-                recommendations.push("Work on developing a growth mindset and embracing change as an opportunity");
-            }
-
-            // General recommendations based on risk level
-            if (riskScore > 70) {
-                recommendations.push("Consider working with a career counselor to develop a comprehensive risk mitigation strategy");
-                recommendations.push("Look into additional income streams to reduce financial dependency on one source");
-            } else if (riskScore > 30) {
-                recommendations.push("Regularly update your resume and LinkedIn profile to stay market-ready");
-                recommendations.push("Consider pursuing relevant certifications or continuing education");
+        
+        function showApp() {
+            loginSection.classList.add('hidden');
+            appSection.classList.remove('hidden');
+        }
+        
+        function showLogin() {
+            appSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+        }
+        
+        function showLoading(show) {
+            if (show) {
+                loading.classList.remove('hidden');
             } else {
-                recommendations.push("Maintain your current strengths while staying alert to industry trends");
-                recommendations.push("Consider mentoring others or taking on leadership roles to further strengthen your position");
+                loading.classList.add('hidden');
             }
-
-            return recommendations;
+        }
+        
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+        
+        function hideError() {
+            errorDiv.classList.add('hidden');
         }
     </script>
 </body>
