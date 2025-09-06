@@ -467,10 +467,31 @@
     </div>
 
     <script>
-        // ✅ Your Supabase URL is already filled in
-        // ⚠️ You ONLY need to replace the ANON_KEY below
+        // ⚠️ REPLACE WITH YOUR ACTUAL SUPABASE ANON KEY ⚠️
+        // Get this from: Supabase Dashboard → Settings → API → "anon public"
         const SUPABASE_URL = 'https://wlojyyalstzebzkyjwom.supabase.co';
-        const SUPABASE_ANON_KEY = 'PASTE_YOUR_ANON_KEY_HERE_STARTS_WITH_eyJ';
+        const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ';
+        
+        // Check if credentials are configured
+        if (SUPABASE_ANON_KEY === 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ') {
+            document.body.innerHTML = `
+                <div style="max-width: 600px; margin: 50px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                    <h2 style="color: #e74c3c; margin-bottom: 20px;">⚠️ Configuration Required</h2>
+                    <p style="margin-bottom: 15px;">You need to update the Supabase anon key in this file:</p>
+                    <ol style="margin-bottom: 20px; padding-left: 20px;">
+                        <li>Go to <a href="https://supabase.com" target="_blank">supabase.com</a> → Your Project → Settings → API</li>
+                        <li>Copy the "anon public" key (starts with eyJ...)</li>
+                        <li>Replace <code>PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ</code> in this HTML file</li>
+                        <li>Upload the updated file to Netlify</li>
+                    </ol>
+                    <p style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px;">
+                        Find this line in the HTML:<br>
+                        <strong>const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE_STARTS_WITH_eyJ';</strong>
+                    </p>
+                </div>
+            `;
+            throw new Error('Supabase credentials not configured');
+        }
         
         // Initialize Supabase client
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -522,10 +543,37 @@
                     saveUserProfile(session.user);
                 } else {
                     showLogin();
+                    handleOAuthCallback();
                 }
             } catch (error) {
                 console.error('Auth check error:', error);
                 showError('Authentication check failed');
+            }
+        }
+        
+        // Handle OAuth callback
+        async function handleOAuthCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hash = window.location.hash;
+            
+            if (urlParams.has('code') || hash.includes('access_token')) {
+                showError('Processing login...', 'info');
+                
+                try {
+                    // Wait a moment for Supabase to process the callback
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    const { data, error } = await supabase.auth.getSession();
+                    if (error) throw error;
+                    
+                    if (data.session) {
+                        hideError();
+                        // Clean up URL
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+                } catch (error) {
+                    showError('Login processing failed: ' + error.message);
+                }
             }
         }
         
@@ -534,7 +582,7 @@
                 const { error } = await supabase.auth.signInWithOAuth({
                     provider: 'google',
                     options: {
-                        redirectTo: window.location.origin
+                        redirectTo: `${window.location.origin}`
                     }
                 });
                 if (error) throw error;
@@ -596,9 +644,11 @@
                 const input = document.getElementById(id);
                 const value = document.getElementById(id + 'Value');
                 
-                input.addEventListener('input', () => {
-                    value.textContent = input.value;
-                });
+                if (input && value) {
+                    input.addEventListener('input', () => {
+                        value.textContent = input.value;
+                    });
+                }
             });
         }
         
@@ -636,233 +686,4 @@
                         user_id: currentUser.id,
                         ...data,
                         overall_risk_score: assessment.score,
-                        risk_level: assessment.level,
-                        recommendations: assessment.recommendations
-                    });
-                
-                if (error) throw error;
-                
-                // Display results
-                displayResults(assessment);
-                
-            } catch (error) {
-                console.error('Assessment error:', error);
-                showError('Failed to process assessment: ' + error.message);
-            } finally {
-                showLoading(false);
-            }
-        }
-        
-        function calculateRiskAssessment(data) {
-            let riskScore = 0;
-            const recommendations = [];
-            
-            // Age factor (peak earning years)
-            if (data.age < 25) {
-                riskScore += 10;
-                recommendations.push('Build foundational skills and gain more experience');
-            } else if (data.age > 55) {
-                riskScore += 15;
-                recommendations.push('Consider retirement planning and skill updates for changing market');
-            } else {
-                riskScore += 5;
-            }
-            
-            // Experience factor
-            if (data.yearsExperience < 2) {
-                riskScore += 20;
-                recommendations.push('Focus on gaining more experience and building a professional network');
-            } else if (data.yearsExperience < 5) {
-                riskScore += 10;
-            } else {
-                riskScore += 0;
-            }
-            
-            // Financial stability
-            const monthsOfExpenses = data.emergencyFund || 0;
-            if (monthsOfExpenses < 3) {
-                riskScore += 25;
-                recommendations.push('Build emergency fund to cover 3-6 months of expenses');
-            } else if (monthsOfExpenses < 6) {
-                riskScore += 10;
-                recommendations.push('Continue building emergency fund to 6+ months');
-            }
-            
-            // Employment type risk
-            const employmentRisk = {
-                'fulltime': 0,
-                'parttime': 15,
-                'contract': 20,
-                'freelance': 25
-            };
-            riskScore += employmentRisk[data.employmentType] || 0;
-            
-            if (data.employmentType !== 'fulltime') {
-                recommendations.push('Consider diversifying income sources or seeking more stable employment');
-            }
-            
-            // Company size and stability
-            const companySizeRisk = {
-                'startup': 20,
-                'small': 10,
-                'medium': 5,
-                'large': 0
-            };
-            riskScore += companySizeRisk[data.companySize] || 0;
-            
-            // Industry risk
-            const industryRisk = {
-                'technology': 5,
-                'finance': 10,
-                'healthcare': 5,
-                'education': 10,
-                'retail': 20,
-                'manufacturing': 15,
-                'consulting': 10,
-                'media': 20,
-                'government': 5,
-                'nonprofit': 15,
-                'other': 10
-            };
-            riskScore += industryRisk[data.industry] || 10;
-            
-            // Satisfaction and stability factors (inverted - higher satisfaction = lower risk)
-            riskScore += (10 - data.jobSatisfaction) * 2;
-            riskScore += (10 - data.companyStability) * 3;
-            riskScore += (10 - data.industryGrowth) * 2;
-            riskScore += (10 - data.skillDemand) * 3;
-            
-            // Job satisfaction recommendations
-            if (data.jobSatisfaction <= 4) {
-                recommendations.push('Consider discussing career development with your manager or exploring new opportunities');
-            }
-            
-            // Company stability recommendations
-            if (data.companyStability <= 4) {
-                recommendations.push('Monitor company performance and have a backup plan ready');
-            }
-            
-            // Industry growth recommendations
-            if (data.industryGrowth <= 4) {
-                recommendations.push('Consider transitioning to a growing industry or developing transferable skills');
-            }
-            
-            // Skill demand recommendations
-            if (data.skillDemand <= 4) {
-                recommendations.push('Invest in learning new, in-demand skills relevant to your field');
-            }
-            
-            // Skills assessment
-            if (data.technicalSkills.length < 3) {
-                riskScore += 10;
-                recommendations.push('Develop more technical skills to increase marketability');
-            }
-            
-            // Education factor
-            const educationRisk = {
-                'highschool': 15,
-                'associate': 10,
-                'bachelor': 5,
-                'master': 0,
-                'phd': 0,
-                'bootcamp': 8
-            };
-            riskScore += educationRisk[data.educationLevel] || 10;
-            
-            // Dependents factor
-            if (data.dependents > 0) {
-                riskScore += data.dependents * 5;
-                recommendations.push('Consider life and disability insurance to protect your dependents');
-            }
-            
-            // Cap the risk score
-            riskScore = Math.min(riskScore, 100);
-            
-            // Determine risk level
-            let riskLevel;
-            if (riskScore <= 30) {
-                riskLevel = 'Low';
-                recommendations.push('Your career appears stable. Continue current trajectory and stay updated with industry trends');
-            } else if (riskScore <= 60) {
-                riskLevel = 'Medium';
-                recommendations.push('Some areas need attention. Focus on the recommendations to improve stability');
-            } else {
-                riskLevel = 'High';
-                recommendations.push('Several risk factors identified. Consider immediate action on multiple fronts');
-            }
-            
-            // Always add general recommendations
-            recommendations.push('Network regularly within your industry');
-            recommendations.push('Keep your resume and LinkedIn profile updated');
-            recommendations.push('Consider additional certifications or training');
-            
-            return {
-                score: Math.round(riskScore),
-                level: riskLevel,
-                recommendations: recommendations.slice(0, 8) // Limit recommendations
-            };
-        }
-        
-        function displayResults(assessment) {
-            const riskCircle = document.getElementById('riskCircle');
-            const riskScoreText = document.getElementById('riskScoreText');
-            const riskLevelText = document.getElementById('riskLevelText');
-            const recommendationsList = document.getElementById('recommendationsList');
-            
-            // Update risk score display
-            riskScoreText.textContent = assessment.score;
-            riskLevelText.textContent = `${assessment.level} Risk`;
-            
-            // Update risk circle color
-            riskCircle.className = 'risk-circle';
-            if (assessment.level === 'Low') {
-                riskCircle.classList.add('risk-low');
-            } else if (assessment.level === 'Medium') {
-                riskCircle.classList.add('risk-medium');
-            } else {
-                riskCircle.classList.add('risk-high');
-            }
-            
-            // Update recommendations
-            recommendationsList.innerHTML = '';
-            assessment.recommendations.forEach(rec => {
-                const li = document.createElement('li');
-                li.textContent = rec;
-                recommendationsList.appendChild(li);
-            });
-            
-            // Show results section
-            resultsSection.classList.remove('hidden');
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function showApp() {
-            loginSection.classList.add('hidden');
-            appSection.classList.remove('hidden');
-        }
-        
-        function showLogin() {
-            appSection.classList.add('hidden');
-            loginSection.classList.remove('hidden');
-            resultsSection.classList.add('hidden');
-        }
-        
-        function showLoading(show) {
-            if (show) {
-                loading.classList.remove('hidden');
-            } else {
-                loading.classList.add('hidden');
-            }
-        }
-        
-        function showError(message) {
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
-        }
-        
-        function hideError() {
-            errorDiv.classList.add('hidden');
-        }
-    </script>
-</body>
-</html>
+                        risk_level: assessment.
