@@ -20,7 +20,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -32,18 +32,36 @@
         }
         
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
         }
         
         .card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .auth-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4285f4, #34a853);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
         
         .login-section {
@@ -54,58 +72,126 @@
             background: #4285f4;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 15px 30px;
             border-radius: 50px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
         }
         
         .google-btn:hover {
             background: #3367d6;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
         }
         
-        .user-profile {
+        .google-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .user-section {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            border: 2px solid #dee2e6;
         }
         
-        .user-profile img {
-            width: 50px;
-            height: 50px;
+        .avatar {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .avatar-fallback {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .user-info h3 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .user-actions {
+            margin-left: auto;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 8px;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+        
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-1px);
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #555;
+            color: #2c3e50;
+            font-size: 1.05rem;
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
             font-size: 16px;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            background: #fafbfc;
         }
         
         .form-group input:focus,
@@ -113,65 +199,147 @@
         .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: white;
+            transform: translateY(-1px);
         }
         
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
+        }
+        
+        .range-group {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            margin-bottom: 20px;
         }
         
         .range-input {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-top: 15px;
         }
         
         .range-input input[type="range"] {
             flex: 1;
             margin: 0;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        
+        .range-input input[type="range"]::-webkit-slider-track {
+            height: 8px;
+            background: linear-gradient(to right, #dc3545, #ffc107, #28a745);
+            border-radius: 4px;
+        }
+        
+        .range-input input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+        
+        .range-input input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .range-input input[type="range"]::-moz-range-track {
+            height: 8px;
+            background: linear-gradient(to right, #dc3545, #ffc107, #28a745);
+            border-radius: 4px;
+            border: none;
+        }
+        
+        .range-input input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+        
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
         }
         
         .range-value {
-            min-width: 30px;
+            min-width: 40px;
             text-align: center;
             font-weight: bold;
             color: #667eea;
+            font-size: 18px;
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
         }
         
         .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 16px 35px;
             border-radius: 50px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
         
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
         
         .section-title {
-            font-size: 1.4rem;
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
+            font-size: 1.6rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #764ba2;
         }
         
         .results {
@@ -180,33 +348,69 @@
         
         .risk-score {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         
         .risk-circle {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: white;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .risk-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
         
         .risk-low {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background: linear-gradient(135deg, #28a745, #20c997);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
         }
         
         .risk-medium {
-            background: linear-gradient(135deg, #fa709a, #fee140);
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
         }
         
         .risk-high {
-            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+        }
+        
+        .risk-level-text {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .risk-description {
+            font-size: 1rem;
+            color: #6c757d;
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.5;
         }
         
         .recommendations {
@@ -215,17 +419,43 @@
         }
         
         .recommendations li {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 18px 22px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recommendations li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .recommendations li::before {
+            content: '💡';
+            margin-right: 10px;
+            font-size: 16px;
         }
         
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #666;
+            padding: 50px;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
         
         .error {
@@ -237,8 +467,40 @@
             border: 1px solid #e74c3c;
         }
         
+        .success-message {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.9);
+            color: #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+            font-family: monospace;
+        }
+        
         .hidden {
             display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @media (max-width: 768px) {
@@ -247,24 +509,51 @@
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .card {
-                padding: 20px;
+                padding: 25px;
                 margin: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .user-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-actions {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .debug-info {
+                position: relative;
+                width: 100%;
+                margin-bottom: 20px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Debug Info -->
+    <div id="debugInfo" class="debug-info hidden">
+        <div id="debugLog"></div>
+    </div>
+
     <div class="container">
         <div class="header">
-            <h1>Career Risk Calculator</h1>
+            <h1>🎯 Career Risk Calculator</h1>
             <p>Assess your career stability and get personalized recommendations</p>
         </div>
         
+        <!-- Login Section -->
         <div id="loginSection" class="card">
+            <div class="auth-badge">🔐 Secure Google Authentication</div>
             <div class="login-section">
                 <h2>Sign in to Get Started</h2>
                 <p style="margin: 20px 0; color: #666;">We'll use your Google account to save your assessments securely.</p>
@@ -275,21 +564,33 @@
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.96409 10.7098C3.78409 10.1698 3.68182 9.59307 3.68182 8.99984C3.68182 8.40661 3.78409 7.82984 3.96409 7.28984V4.95801H0.957273C0.347727 6.17301 0 7.54757 0 8.99984C0 10.4521 0.347727 11.8266 0.957273 13.0416L3.96409 10.7098Z" fill="white"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9 3.57955C10.3214 3.57955 11.5077 4.03364 12.4405 4.92545L15.0218 2.34409C13.4632 0.891818 11.4259 0 9 0C5.48182 0 2.43818 2.01682 0.957275 4.95818L3.96409 7.29C4.67182 5.16273 6.65591 3.57955 9 3.57955Z" fill="white"/>
                     </svg>
-                    Continue with Google
+                    <span id="loginBtnText">Continue with Google</span>
                 </button>
             </div>
         </div>
         
+        <!-- Main App Section -->
         <div id="appSection" class="hidden">
+            <!-- User Profile -->
             <div class="card">
-                <div id="userProfile" class="user-profile"></div>
-                <button id="logoutBtn" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; float: right;">Logout</button>
-                <div style="clear: both;"></div>
+                <div class="auth-badge">✅ Authenticated with Google</div>
+                <div class="user-section" id="userSection">
+                    <div id="userAvatar"></div>
+                    <div class="user-info">
+                        <h3 id="userName">Loading...</h3>
+                        <p id="userEmail">Loading...</p>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn-small btn-outline" onclick="viewHistory()">View History</button>
+                        <button id="logoutBtn" class="btn-small btn-danger">Logout</button>
+                    </div>
+                </div>
             </div>
             
+            <!-- Assessment Form -->
             <div class="card">
                 <form id="assessmentForm">
-                    <h2 class="section-title">Personal Information</h2>
+                    <h2 class="section-title">📝 Personal Information</h2>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="age">Age</label>
@@ -308,11 +609,11 @@
                         </div>
                         <div class="form-group">
                             <label for="dependents">Number of Dependents</label>
-                            <input type="number" id="dependents" name="dependents" min="0" max="20">
+                            <input type="number" id="dependents" name="dependents" min="0" max="20" value="0">
                         </div>
                     </div>
                     
-                    <h2 class="section-title">Career Information</h2>
+                    <h2 class="section-title">💼 Career Information</h2>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="jobTitle">Job Title</label>
@@ -360,7 +661,7 @@
                         </div>
                     </div>
                     
-                    <h2 class="section-title">Skills & Education</h2>
+                    <h2 class="section-title">🎓 Skills & Education</h2>
                     <div class="form-group">
                         <label for="educationLevel">Education Level</label>
                         <select id="educationLevel" name="educationLevel" required>
@@ -376,10 +677,10 @@
                     
                     <div class="form-group">
                         <label for="technicalSkills">Technical Skills (comma-separated)</label>
-                        <textarea id="technicalSkills" name="technicalSkills" rows="3" placeholder="e.g., JavaScript, Python, Data Analysis, Project Management"></textarea>
+                        <textarea id="technicalSkills" name="technicalSkills" rows="3" placeholder="e.g., JavaScript, Python, Data Analysis, Project Management, Marketing, Design"></textarea>
                     </div>
                     
-                    <h2 class="section-title">Financial Information</h2>
+                    <h2 class="section-title">💰 Financial Information</h2>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="monthlyExpenses">Monthly Expenses (USD)</label>
@@ -387,67 +688,80 @@
                         </div>
                         <div class="form-group">
                             <label for="emergencyFund">Emergency Fund (months of expenses)</label>
-                            <input type="number" id="emergencyFund" name="emergencyFund" min="0" max="24" step="0.5">
+                            <input type="number" id="emergencyFund" name="emergencyFund" min="0" max="24" step="0.5" value="0">
                         </div>
                     </div>
                     
-                    <h2 class="section-title">Risk Assessment (Rate 1-10)</h2>
-                    <div class="form-group">
+                    <h2 class="section-title">📊 Risk Assessment (Rate 1-10)</h2>
+                    
+                    <div class="range-group">
                         <label for="jobSatisfaction">Job Satisfaction</label>
                         <div class="range-input">
-                            <span>1 (Very Unsatisfied)</span>
                             <input type="range" id="jobSatisfaction" name="jobSatisfaction" min="1" max="10" value="5">
-                            <span>10 (Very Satisfied)</span>
                             <div class="range-value" id="jobSatisfactionValue">5</div>
                         </div>
+                        <div class="range-labels">
+                            <span>Very Unsatisfied</span>
+                            <span>Very Satisfied</span>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="range-group">
                         <label for="companyStability">Company Stability</label>
                         <div class="range-input">
-                            <span>1 (Very Unstable)</span>
                             <input type="range" id="companyStability" name="companyStability" min="1" max="10" value="5">
-                            <span>10 (Very Stable)</span>
                             <div class="range-value" id="companyStabilityValue">5</div>
                         </div>
+                        <div class="range-labels">
+                            <span>Very Unstable</span>
+                            <span>Very Stable</span>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="range-group">
                         <label for="industryGrowth">Industry Growth Prospects</label>
                         <div class="range-input">
-                            <span>1 (Declining)</span>
                             <input type="range" id="industryGrowth" name="industryGrowth" min="1" max="10" value="5">
-                            <span>10 (Rapidly Growing)</span>
                             <div class="range-value" id="industryGrowthValue">5</div>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="skillDemand">Skill Set Market Demand</label>
-                        <div class="range-input">
-                            <span>1 (Low Demand)</span>
-                            <input type="range" id="skillDemand" name="skillDemand" min="1" max="10" value="5">
-                            <span>10 (High Demand)</span>
-                            <div class="range-value" id="skillDemandValue">5</div>
+                        <div class="range-labels">
+                            <span>Declining</span>
+                            <span>Rapidly Growing</span>
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn" id="calculateBtn">Calculate Career Risk</button>
+                    <div class="range-group">
+                        <label for="skillDemand">Skill Set Market Demand</label>
+                        <div class="range-input">
+                            <input type="range" id="skillDemand" name="skillDemand" min="1" max="10" value="5">
+                            <div class="range-value" id="skillDemandValue">5</div>
+                        </div>
+                        <div class="range-labels">
+                            <span>Low Demand</span>
+                            <span>High Demand</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn" id="calculateBtn">
+                        🚀 Calculate My Career Risk Score
+                    </button>
                 </form>
             </div>
             
+            <!-- Results Section -->
             <div id="resultsSection" class="card hidden">
-                <h2 class="section-title">Your Career Risk Assessment</h2>
+                <h2 class="section-title">📈 Your Career Risk Assessment</h2>
                 <div class="results">
                     <div class="risk-score">
                         <div id="riskCircle" class="risk-circle">
                             <span id="riskScoreText">--</span>
                         </div>
-                        <h3 id="riskLevelText">Risk Level</h3>
+                        <h3 id="riskLevelText" class="risk-level-text">Risk Level</h3>
+                        <p id="riskDescription" class="risk-description"></p>
                     </div>
                     
                     <div>
-                        <h3>Recommendations:</h3>
+                        <h3 style="margin-bottom: 20px; color: #2c3e50;">💡 Personalized Recommendations:</h3>
                         <ul id="recommendationsList" class="recommendations"></ul>
                     </div>
                 </div>
@@ -455,302 +769,7 @@
         </div>
         
         <div id="loading" class="loading hidden">
-            <p>Processing your assessment...</p>
+            <p>Processing your assessment</p>
         </div>
         
         <div id="error" class="error hidden"></div>
-    </div>
-
-    <script>
-        // ⚠️ REPLACE WITH YOUR ACTUAL SUPABASE ANON KEY ⚠️
-        // Get this from: Supabase Dashboard → Settings → API → "anon public"
-        const SUPABASE_URL = 'https://wlojyyalstzebzkyjwom.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4';
-        
-        // Check if credentials are configured
-        if (SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4') {
-            document.body.innerHTML = `
-                <div style="max-width: 600px; margin: 50px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                    <h2 style="color: #e74c3c; margin-bottom: 20px;">⚠️ Configuration Required</h2>
-                    <p style="margin-bottom: 15px;">You need to update the Supabase anon key in this file:</p>
-                    <ol style="margin-bottom: 20px; padding-left: 20px;">
-                        <li>Go to <a href="https://supabase.com" target="_blank">supabase.com</a> → Your Project → Settings → API</li>
-                        <li>Copy the "anon public" key (starts with eyJ...)</li>
-                        <li>Replace <code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4</code> in this HTML file</li>
-                        <li>Upload the updated file to Netlify</li>
-                    </ol>
-                    <p style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px;">
-                        Find this line in the HTML:<br>
-                        <strong>const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb2p5eWFsc3R6ZWJ6a3lqd29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMzY5OTgsImV4cCI6MjA3MjcxMjk5OH0.ptCGGTfLYPjwsen-h5P9OcrqKveYF1JUF9UI6RePym4';</strong>
-                    </p>
-                </div>
-            `;
-            throw new Error('Supabase credentials not configured');
-        }
-        
-        // Initialize Supabase client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // --- DOM Elements ---
-        const loginSection = document.getElementById('loginSection');
-        const appSection = document.getElementById('appSection');
-        const userProfile = document.getElementById('userProfile');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const assessmentForm = document.getElementById('assessmentForm');
-        const resultsSection = document.getElementById('resultsSection');
-        const riskCircle = document.getElementById('riskCircle');
-        const riskScoreText = document.getElementById('riskScoreText');
-        const riskLevelText = document.getElementById('riskLevelText');
-        const recommendationsList = document.getElementById('recommendationsList');
-        const loading = document.getElementById('loading');
-        const errorDiv = document.getElementById('error');
-        
-        // --- Event Listeners for Range Inputs ---
-        const rangeInputs = ['jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand'];
-        rangeInputs.forEach(id => {
-            const input = document.getElementById(id);
-            const valueSpan = document.getElementById(id + 'Value');
-            input.addEventListener('input', () => {
-                valueSpan.textContent = input.value;
-            });
-        });
-
-        // --- Supabase Authentication Functions ---
-        async function signInWithGoogle() {
-            const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'google'
-            });
-            if (error) {
-                showError('Error signing in with Google: ' + error.message);
-            }
-        }
-        
-        async function signOut() {
-            const { error } = await supabase.auth.signOut();
-            if (error) {
-                showError('Error signing out: ' + error.message);
-            }
-        }
-        
-        async function getSession() {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            if (error) {
-                showError('Error getting session: ' + error.message);
-                return;
-            }
-            if (session) {
-                onSessionChanged(session);
-            } else {
-                onSessionChanged(null);
-            }
-        }
-        
-        supabase.auth.onAuthStateChange((event, session) => {
-            onSessionChanged(session);
-        });
-
-        function onSessionChanged(session) {
-            if (session) {
-                // User is logged in
-                loginSection.classList.add('hidden');
-                appSection.classList.remove('hidden');
-                const user = session.user;
-                userProfile.innerHTML = `
-                    <img src="${user.user_metadata.avatar_url}" alt="Profile Picture">
-                    <div>
-                        <h4>Welcome, ${user.user_metadata.full_name}</h4>
-                        <p style="font-size: 0.9em; color: #666;">${user.email}</p>
-                    </div>
-                `;
-            } else {
-                // User is logged out
-                loginSection.classList.remove('hidden');
-                appSection.classList.add('hidden');
-                resultsSection.classList.add('hidden');
-            }
-        }
-
-        // --- Form Submission and Calculation Logic ---
-        assessmentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            showLoading(true);
-            const formData = new FormData(assessmentForm);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Convert numerical inputs to numbers
-            for (const key of ['age', 'yearsExperience', 'currentSalary', 'dependents', 'monthlyExpenses', 'emergencyFund', 'jobSatisfaction', 'companyStability', 'industryGrowth', 'skillDemand']) {
-                data[key] = parseFloat(data[key]);
-            }
-
-            try {
-                // Calculate risk score
-                const riskScore = calculateRiskScore(data);
-                const { riskLevel, recommendations } = getRecommendations(riskScore, data);
-
-                // Display results
-                displayResults(riskScore, riskLevel, recommendations);
-                
-                // Save data to Supabase
-                const { data: userData, error } = await supabase
-                    .from('assessments')
-                    .insert([{ 
-                        user_id: (await supabase.auth.getSession()).data.session.user.id,
-                        age: data.age,
-                        years_experience: data.yearsExperience,
-                        current_salary: data.currentSalary,
-                        dependents: data.dependents,
-                        job_title: data.jobTitle,
-                        industry: data.industry,
-                        company_size: data.companySize,
-                        employment_type: data.employmentType,
-                        education_level: data.educationLevel,
-                        technical_skills: data.technicalSkills,
-                        monthly_expenses: data.monthlyExpenses,
-                        emergency_fund: data.emergencyFund,
-                        job_satisfaction: data.jobSatisfaction,
-                        company_stability: data.companyStability,
-                        industry_growth: data.industryGrowth,
-                        skill_demand: data.skillDemand,
-                        risk_score: riskScore,
-                        risk_level: riskLevel,
-                        recommendations: recommendations.join('; ')
-                    }]);
-
-                if (error) {
-                    console.error('Error saving data:', error);
-                }
-            } catch (err) {
-                showError('Calculation failed. Please check your inputs.');
-            } finally {
-                showLoading(false);
-            }
-        });
-
-        function calculateRiskScore(data) {
-            // Weights (can be adjusted)
-            const weights = {
-                age: 0.1,
-                yearsExperience: 0.1,
-                currentSalary: 0.15,
-                dependents: 0.1,
-                educationLevel: 0.1,
-                jobSatisfaction: 0.15,
-                companyStability: 0.15,
-                industryGrowth: 0.15,
-                skillDemand: 0.2
-            };
-            
-            // Inverse mapping for certain values (e.g., lower age/salary/satisfaction means higher risk)
-            const invertedAge = 100 - data.age;
-            const invertedSalary = 10 - (data.currentSalary / 10000); // Scale down large numbers
-            const invertedDependents = data.dependents * 1.5;
-            const invertedEducation = { 'highschool': 10, 'associate': 8, 'bachelor': 6, 'master': 4, 'phd': 2, 'bootcamp': 7 };
-            
-            let score = 0;
-            score += (data.jobSatisfaction) * 1.5; // High satisfaction reduces risk
-            score += (data.companyStability) * 1.5; // High stability reduces risk
-            score += (data.industryGrowth) * 1.5; // High growth reduces risk
-            score += (data.skillDemand) * 1.5; // High demand reduces risk
-            score -= (data.age / 10); // Older age slightly increases risk
-            score -= (data.dependents * 2); // More dependents increases risk
-            score += (data.yearsExperience); // More experience reduces risk
-            score -= (data.monthlyExpenses / data.currentSalary * 100); // High expenses relative to income increases risk
-            score += (data.emergencyFund * 5); // Emergency fund reduces risk
-            
-            // Normalize score to a 1-100 range and cap it
-            score = Math.max(1, Math.min(100, (50 - (data.jobSatisfaction - 5) * 2 - (data.companyStability - 5) * 2 - (data.industryGrowth - 5) * 2 - (data.skillDemand - 5) * 2)));
-
-            return Math.round(score);
-        }
-
-        function getRecommendations(score, data) {
-            const recommendations = [];
-            let riskLevel = 'Low';
-            let riskColorClass = 'risk-low';
-
-            if (score > 60) {
-                riskLevel = 'High';
-                riskColorClass = 'risk-high';
-                recommendations.push("Your career risk is high. Consider a proactive plan to address these vulnerabilities.");
-            } else if (score > 30) {
-                riskLevel = 'Medium';
-                riskColorClass = 'risk-medium';
-                recommendations.push("Your career risk is moderate. Focus on strengthening key areas to improve stability.");
-            } else {
-                riskLevel = 'Low';
-                riskColorClass = 'risk-low';
-                recommendations.push("Your career risk is low. Maintain your current course and stay adaptable.");
-            }
-            
-            if (data.emergencyFund < 3) {
-                recommendations.push(`Financial Security: Build an emergency fund of at least 3-6 months' expenses. You currently have only ${data.emergencyFund} months.`);
-            }
-            
-            if (data.skillDemand < 5) {
-                recommendations.push("Skill Development: Invest in new skills, especially those with high market demand, to future-proof your career.");
-            }
-            
-            if (data.companyStability < 5) {
-                recommendations.push("Company Stability: Explore opportunities at more stable companies or industries to mitigate layoff risk.");
-            }
-
-            if (data.jobSatisfaction < 5) {
-                recommendations.push("Job Satisfaction: Reflect on what's causing dissatisfaction. It may be time to seek new challenges or a different role.");
-            }
-
-            if (data.industryGrowth < 5) {
-                recommendations.push(`Industry Focus: The ${data.industry} industry may be declining. Consider transitioning to a faster-growing sector over time.`);
-            }
-
-            return { riskLevel, recommendations };
-        }
-
-        function displayResults(score, level, recommendations) {
-            resultsSection.classList.remove('hidden');
-            riskCircle.className = 'risk-circle ' + getRiskColorClass(level);
-            riskScoreText.textContent = score;
-            riskLevelText.textContent = `Risk Level: ${level}`;
-
-            recommendationsList.innerHTML = '';
-            if (recommendations.length > 0) {
-                recommendations.forEach(rec => {
-                    const li = document.createElement('li');
-                    li.textContent = rec;
-                    recommendationsList.appendChild(li);
-                });
-            } else {
-                recommendationsList.innerHTML = '<li>No specific recommendations at this time. Keep up the good work!</li>';
-            }
-        }
-
-        function getRiskColorClass(level) {
-            switch(level) {
-                case 'Low': return 'risk-low';
-                case 'Medium': return 'risk-medium';
-                case 'High': return 'risk-high';
-                default: return '';
-            }
-        }
-        
-        function showLoading(show) {
-            loading.classList.toggle('hidden', !show);
-            assessmentForm.style.opacity = show ? '0.5' : '1';
-            const buttons = assessmentForm.querySelectorAll('button, input, select');
-            buttons.forEach(btn => btn.disabled = show);
-        }
-
-        function showError(message) {
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
-        }
-        
-        // --- Button Click Handlers ---
-        loginBtn.addEventListener('click', signInWithGoogle);
-        logoutBtn.addEventListener('click', signOut);
-
-        // Initial session check
-        getSession();
-    </script>
-</body>
-</html>
