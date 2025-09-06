@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Risk Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .form-section {
+            padding: 40px 30px;
+        }
+        
+        .question-group {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .question-group:nth-child(1) { animation-delay: 0.1s; }
+        .question-group:nth-child(2) { animation-delay: 0.2s; }
+        .question-group:nth-child(3) { animation-delay: 0.3s; }
+        .question-group:nth-child(4) { animation-delay: 0.4s; }
+        .question-group:nth-child(5) { animation-delay: 0.5s; }
+        .question-group:nth-child(6) { animation-delay: 0.6s; }
+        
+        .question-label {
+            display: block;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .slider-container {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e1e8ed;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            appearance: -webkit-none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .current-value {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-section {
+            padding: 30px;
+            background: #f8f9fb;
+            margin-top: 30px;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .result-section.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .risk-score {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .risk-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .risk-level {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .recommendations {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .recommendations h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .recommendations ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .recommendations li {
+            padding: 8px 0;
+            color: #555;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .recommendations li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .low-risk { color: #27ae60; }
+        .medium-risk { color: #f39c12; }
+        .high-risk { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Career Risk Calculator</h1>
+            <p>Assess your career stability and get personalized recommendations</p>
+        </div>
+        
+        <div class="form-section">
+            <form id="riskForm">
+                <div class="question-group">
+                    <label class="question-label">How stable is your industry? (1 = Very unstable, 10 = Very stable)</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="industry">
+                        <div class="slider-labels">
+                            <span>Very Unstable</span>
+                            <span>Very Stable</span>
+                        </div>
+                        <div class="current-value" id="industryValue">5</div>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <label class="question-label">How in-demand are your skills? (1 = Low demand, 10 = High demand)</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="skills">
+                        <div class="slider-labels">
+                            <span>Low Demand</span>
+                            <span>High Demand</span>
+                        </div>
+                        <div class="current-value" id="skillsValue">5</div>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <label class="question-label">How diverse is your skill set? (1 = Very specialized, 10 = Very diverse)</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="diversity">
+                        <div class="slider-labels">
+                            <span>Very Specialized</span>
+                            <span>Very Diverse</span>
+                        </div>
+                        <div class="current-value" id="diversityValue">5</div>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <label class="question-label">How strong is your professional network? (1 = Very weak, 10 = Very strong)</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="network">
+                        <div class="slider-labels">
+                            <span>Very Weak</span>
+                            <span>Very Strong</span>
+                        </div>
+                        <div class="current-value" id="networkValue">5</div>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <label class="question-label">How much emergency savings do you have? (1 = No savings, 10 = 12+ months expenses)</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="savings">
+                        <div class="slider-labels">
+                            <span>No Savings</span>
+                            <span>12+ Months</span>
+                        </div>
+                        <div class="current-value" id="savingsValue">5</div>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <label class="question-label">How adaptable are you to change? (1 = Not adaptable, 10 = Very adaptable)</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="adaptability">
+                        <div class="slider-labels">
+                            <span>Not Adaptable</span>
+                            <span>Very Adaptable</span>
+                        </div>
+                        <div class="current-value" id="adaptabilityValue">5</div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="calculate-btn">Calculate My Career Risk</button>
+            </form>
+            
+            <div id="results" class="result-section">
+                <div class="risk-score">
+                    <div id="riskNumber" class="risk-number">0</div>
+                    <div id="riskLevel" class="risk-level">Low Risk</div>
+                </div>
+                
+                <div class="recommendations">
+                    <h3>Recommendations</h3>
+                    <ul id="recommendationsList">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update slider values in real-time
+        const sliders = ['industry', 'skills', 'diversity', 'network', 'savings', 'adaptability'];
+        
+        sliders.forEach(slider => {
+            const input = document.getElementById(slider);
+            const value = document.getElementById(slider + 'Value');
+            
+            input.addEventListener('input', function() {
+                value.textContent = this.value;
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('riskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateRisk();
+        });
+
+        function calculateRisk() {
+            // Get all values
+            const industry = parseInt(document.getElementById('industry').value);
+            const skills = parseInt(document.getElementById('skills').value);
+            const diversity = parseInt(document.getElementById('diversity').value);
+            const network = parseInt(document.getElementById('network').value);
+            const savings = parseInt(document.getElementById('savings').value);
+            const adaptability = parseInt(document.getElementById('adaptability').value);
+
+            // Calculate risk score (invert so higher scores = lower risk)
+            const totalScore = industry + skills + diversity + network + savings + adaptability;
+            const riskScore = Math.round(((60 - totalScore) / 54) * 100);
+            const finalRisk = Math.max(0, Math.min(100, riskScore));
+
+            // Determine risk level
+            let riskLevel, riskClass;
+            if (finalRisk <= 30) {
+                riskLevel = "Low Risk";
+                riskClass = "low-risk";
+            } else if (finalRisk <= 70) {
+                riskLevel = "Medium Risk";
+                riskClass = "medium-risk";
+            } else {
+                riskLevel = "High Risk";
+                riskClass = "high-risk";
+            }
+
+            // Generate recommendations
+            const recommendations = generateRecommendations(industry, skills, diversity, network, savings, adaptability, finalRisk);
+
+            // Display results
+            document.getElementById('riskNumber').textContent = finalRisk + '%';
+            document.getElementById('riskLevel').textContent = riskLevel;
+            document.getElementById('riskLevel').className = 'risk-level ' + riskClass;
+
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.textContent = rec;
+                recommendationsList.appendChild(li);
+            });
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateRecommendations(industry, skills, diversity, network, savings, adaptability, riskScore) {
+            const recommendations = [];
+
+            if (industry <= 4) {
+                recommendations.push("Consider diversifying into more stable industries or developing transferable skills");
+            }
+
+            if (skills <= 4) {
+                recommendations.push("Invest time in learning high-demand skills in your field or related areas");
+            }
+
+            if (diversity <= 4) {
+                recommendations.push("Develop a broader skill set to increase your career flexibility and opportunities");
+            }
+
+            if (network <= 4) {
+                recommendations.push("Focus on building professional relationships through networking events and online communities");
+            }
+
+            if (savings <= 4) {
+                recommendations.push("Prioritize building an emergency fund covering 6-12 months of expenses");
+            }
+
+            if (adaptability <= 4) {
+                recommendations.push("Work on developing a growth mindset and embracing change as an opportunity");
+            }
+
+            // General recommendations based on risk level
+            if (riskScore > 70) {
+                recommendations.push("Consider working with a career counselor to develop a comprehensive risk mitigation strategy");
+                recommendations.push("Look into additional income streams to reduce financial dependency on one source");
+            } else if (riskScore > 30) {
+                recommendations.push("Regularly update your resume and LinkedIn profile to stay market-ready");
+                recommendations.push("Consider pursuing relevant certifications or continuing education");
+            } else {
+                recommendations.push("Maintain your current strengths while staying alert to industry trends");
+                recommendations.push("Consider mentoring others or taking on leadership roles to further strengthen your position");
+            }
+
+            return recommendations;
+        }
+    </script>
+</body>
+</html>
